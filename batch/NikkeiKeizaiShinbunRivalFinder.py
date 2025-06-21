@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
+#日経経済新聞から特定銘柄の競合他社をcsv出力する
 def get_competitor_links_below_same_industry(scode):
     url = f"https://www.nikkei.com/nkd/company/?scode={scode}"
     print(f"[INFO] アクセス中: {url}")

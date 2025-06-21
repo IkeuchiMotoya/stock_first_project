@@ -6,7 +6,7 @@ import os
 import chardet
 
 # ================================
-# 🔧 設定
+# 🔧 設定  
 # ================================
 DAYS_BACK = 3
 JST = timezone(timedelta(hours=9))
