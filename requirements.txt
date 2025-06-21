@@ -1,0 +1,9 @@
+pandas
+selenium
+beautifulsoup4
+undetected-chromedriver
+openpyxl
+requests
+chardet
+yfinance
+streamlit
