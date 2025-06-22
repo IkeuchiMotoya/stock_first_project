@@ -60,7 +60,7 @@ except subprocess.CalledProcessError as e:
 # === 通期の業績推移を取得実行 ===
 # パスと引数
 input_csv = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
-output_excel = "data/output/競合他社との通期業績比較/業績_統合.xlsx"
+output_excel = "data/output/競合他社との通期業績比較/通期業績推移.xlsx"
 script_path = "logic/sites/KabuPredictor.py"
 
 # コマンド構築
@@ -73,3 +73,21 @@ try:
     print("[DONE] KabuPredictor 正常終了")
 except subprocess.CalledProcessError as e:
     print(f"[ERROR] KabuPredictor 実行失敗: {e}")
+
+
+# === 競合他社との指標比較を取得実行 ===
+# パスと引数
+input_csv = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
+output_excel = "data/output/競合他社との通期業績比較/指標比較.xlsx"
+script_path = "logic/sites/Stock_Quotes.py"
+
+# コマンド構築
+cmd = ["python", script_path, input_csv, output_excel]
+
+# 実行
+print(f"[RUNNING] {' '.join(cmd)}")
+try:
+    subprocess.run(cmd, check=True)
+    print("[DONE] Stock_Quotes 正常終了")
+except subprocess.CalledProcessError as e:
+    print(f"[ERROR] Stock_Quotes 実行失敗: {e}")
