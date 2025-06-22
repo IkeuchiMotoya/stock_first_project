@@ -5,7 +5,8 @@ import os
 #競合他社取得の参照サイト
 #[日経経済新聞][四季報オンライン][株予報Pro]
 # 対象の銘柄コード（ここを変えればどの銘柄でも一括取得可能）
-scode = "2975"
+scode = "2983"
+name = "アールプランナー"
 #最初にフォルダのファイルクリーンするためのパス
 output_dir = f"data/output/競合他社の銘柄コード取得"
 
@@ -55,6 +56,30 @@ try:
     subprocess.run(merge_cmd, check=True)
 except subprocess.CalledProcessError as e:
     print(f"[ERROR] 統合処理失敗: {e}")
+#===ファイル統合後比較したい大本の銘柄を先頭に追加する===
+try:
+    subprocess.run(merge_cmd, check=True)
+
+    # 統合成功後に2行目追加
+    insert_row = [scode.strip(), name.strip().splitlines()[0].split(",")[0]]
+
+    with open(output_file, "r", encoding="utf-8-sig") as f:
+        lines = f.readlines()
+
+    if len(lines) >= 1:
+        header = lines[0]
+        rest = lines[1:]
+        new_line = ",".join(insert_row) + "\n"
+        lines = [header, new_line] + rest
+
+    with open(output_file, "w", encoding="utf-8-sig") as f:
+        f.writelines(lines)
+
+    print(f"[DONE] 2行目に {insert_row} を追加しました")
+
+except subprocess.CalledProcessError as e:
+    print(f"[ERROR] 統合処理失敗: {e}")
+
 
 
 # === 通期の業績推移を取得実行 ===
