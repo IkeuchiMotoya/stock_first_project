@@ -1,3 +1,5 @@
+import sys
+import os
 import csv
 import re
 import time
@@ -6,13 +8,19 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
-#日経経済新聞から特定銘柄の競合他社をcsv出力する
+#日経経済新聞から競合他社取得
+# 引数で銘柄コードを受け取る
+if len(sys.argv) != 2:
+    print("使い方: python site2_rivals_batch.py <銘柄コード>")
+    sys.exit(1)
+
+target_scode = sys.argv[1]
+
 def get_competitor_links_below_same_industry(scode):
     url = f"https://www.nikkei.com/nkd/company/?scode={scode}"
     print(f"[INFO] アクセス中: {url}")
 
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless")  # 必要に応じて可視化
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_experimental_option('excludeSwitches', ['enable-automation'])
     options.add_experimental_option('useAutomationExtension', False)
@@ -48,16 +56,15 @@ def get_competitor_links_below_same_industry(scode):
     return competitors
 
 def write_to_csv(data, filepath):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
     with open(filepath, mode='w', newline='', encoding='utf-8-sig') as f:
         writer = csv.DictWriter(f, fieldnames=["銘柄コード", "銘柄名"])
         writer.writeheader()
         writer.writerows(data)
     print(f"[INFO] 書き込み完了: {filepath}")
 
-# === 実行 ===
+# 実行
 if __name__ == "__main__":
-    target_scode = "3135"  # 任意の銘柄コード
     competitors = get_competitor_links_below_same_industry(target_scode)
-
-    output_path = r"C:\Users\pumpk\OneDrive\デスクトップ\株式\csv\csvインポート\通期業績の推移、指標の取得\検索銘柄.csv"
+    output_path = f"data/output/rivals_site2_{target_scode}.csv"
     write_to_csv(competitors, output_path)
