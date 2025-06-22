@@ -14,8 +14,8 @@ END_DATE = datetime.now(JST)
 START_DATE = END_DATE - timedelta(days=DAYS_BACK)
 
 CSV_PATHS = [
-    r'C:\Users\pumpk\OneDrive\デスクトップ\株式\csv\保有銘柄\保有銘柄_信用.csv',
-    r'C:\Users\pumpk\OneDrive\デスクトップ\株式\csv\保有銘柄\保有銘柄_現物.csv'
+    r'data/input/保有銘柄/保有銘柄_信用.csv',
+    r'data/input/保有銘柄/保有銘柄_現物.csv'
 ]
 
 OUTPUT_PATH = r'C:\Users\pumpk\OneDrive\デスクトップ\株式\kabutan_news_期間指定_統合版.xlsx'

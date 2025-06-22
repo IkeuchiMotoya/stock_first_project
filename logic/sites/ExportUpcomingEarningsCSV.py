@@ -8,9 +8,9 @@ import os
 # ========================
 # 🔧 設定
 # ========================
-START_DATE = "2025-06-12"
+START_DATE = "2025-06-25"
 NUM_DAYS = 7
-SAVE_DIR = r"C:\Users\pumpk\OneDrive\デスクトップ\株式\csv\csvインポート\決算発表後の反応"
+SAVE_DIR = r"data/input/決算発表後の反応"
 
 # ========================
 # 📥 データ取得関数

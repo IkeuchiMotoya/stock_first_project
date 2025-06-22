@@ -6,7 +6,7 @@ import re
 from datetime import datetime, timedelta
 
 # 📥 CSVパス
-import_path = r'C:\Users\pumpk\OneDrive\デスクトップ\株式\csv\csvインポート\決算発表後の反応\決算発表予定_2025-06-16.csv'
+import_path = r'data/input/決算発表後の反応/決算発表予定_2025-06-16.csv'
 
 # 📤 出力用日付（1行目の決算日をそのまま使う）
 with open(import_path, 'r', encoding='utf-8-sig') as f:
@@ -82,6 +82,6 @@ print("\n決算後に5%以上株価が変動した銘柄：")
 print(df_filtered)
 
 # 保存
-export_path = fr'C:\Users\pumpk\OneDrive\デスクトップ\株式\csv\csvエクスポート\決算発表後反応銘柄\決算反応銘柄{date_str}.csv'
+export_path = fr'data/output/決算発表後反応銘柄/決算反応銘柄{date_str}.csv'
 df_filtered.to_csv(export_path, index=False, encoding='utf-8-sig')
 print(f"✅ 出力完了: {export_path}")
