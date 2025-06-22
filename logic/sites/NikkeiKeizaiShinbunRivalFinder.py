@@ -66,5 +66,5 @@ def write_to_csv(data, filepath):
 # 実行
 if __name__ == "__main__":
     competitors = get_competitor_links_below_same_industry(target_scode)
-    output_path = f"data/output/rivals_site2_{target_scode}.csv"
+    output_path = f"data/output/競合他社の銘柄コード取得/日経経済新聞_{target_scode}.csv"
     write_to_csv(competitors, output_path)

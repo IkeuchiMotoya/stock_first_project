@@ -1,13 +1,15 @@
 import subprocess
 
+#競合他社の銘柄コードをcsv出力
+#参照サイト
+#[日経経済新聞][四季報オンライン][株予報Pro]
 # 対象の銘柄コード（ここを変えればどの銘柄でも一括取得可能）
-scode = "3135"
+scode = "135A"
 
 # サイトごとのスクリプトパス
 scripts = [
-    # ["python", "batch/site1_rivals.py", scode],
-    ["python", "logic/sites/NikkeiKeizaiShinbunRivalFinder.py", scode]
-    # ["python", "batch/site3_rivals.py", scode]
+    ["python", "logic/sites/NikkeiKeizaiShinbunRivalFinder.py", scode],
+    ["python", "logic/sites/ShikihouOnlineRivalFinder.py", scode]
 ]
 
 # 実行
