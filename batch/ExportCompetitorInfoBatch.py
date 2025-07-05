@@ -5,8 +5,8 @@ import os
 #競合他社取得の参照サイト
 #[日経経済新聞][四季報オンライン][株予報Pro]
 # 対象の銘柄コード（ここを変えればどの銘柄でも一括取得可能）
-scode = "2983"
-name = "アールプランナー"
+scode = "3921"
+name = "ネオジャパン"
 #最初にフォルダのファイルクリーンするためのパス
 output_dir = f"data/output/競合他社の銘柄コード取得"
 
@@ -116,3 +116,23 @@ try:
     print("[DONE] Stock_Quotes 正常終了")
 except subprocess.CalledProcessError as e:
     print(f"[ERROR] Stock_Quotes 実行失敗: {e}")
+
+
+# === 競合他社とのEV/EBITDA取得を実行 ===
+import subprocess
+
+# パスと引数
+input_csv = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
+output_csv = "data/output/競合他社の銘柄コード取得/株テク_EV_EBITDA.csv"
+script_path = "logic/RivalFinder/Select_EV_EBITDA.py"
+
+# コマンド構築
+cmd = ["python", script_path, input_csv, output_csv]
+
+# 実行
+print(f"[RUNNING] {' '.join(cmd)}")
+try:
+    subprocess.run(cmd, check=True)
+    print("[DONE] Select_EV_EBITDA 正常終了")
+except subprocess.CalledProcessError as e:
+    print(f"[ERROR] Select_EV_EBITDA 実行失敗: {e}")

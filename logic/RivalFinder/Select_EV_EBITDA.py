@@ -1,15 +1,13 @@
 import os
 import csv
+import sys
 import requests
 from bs4 import BeautifulSoup
 
 def get_ev_ebitda(stock_code):
     url = f"https://www.kabutec.jp/company/i.php?code={stock_code}"
+    headers = {"User-Agent": "Mozilla/5.0"}
     print(f"[INFO] アクセス中: {url}")
-
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
 
     try:
         resp = requests.get(url, headers=headers)
@@ -22,14 +20,11 @@ def get_ev_ebitda(stock_code):
 
         for section in sections:
             if "EV/EBITDA" in section.text:
-                rows = section.find_all('tr')
-                for tr in rows:
+                for tr in section.find_all('tr'):
                     th = tr.find('th')
                     td = tr.find('td')
                     if th and 'EV/EBITDA' in th.text:
-                        value = td.text.strip().replace('年', '')
-                        print(f"[INFO] 取得成功: {stock_code} → {value}")
-                        return value
+                        return td.text.strip().replace('年', '')
         return "該当なし"
     except Exception as e:
         print(f"[ERROR] 例外発生: {e}")
@@ -55,12 +50,16 @@ def write_output_csv(data, filepath):
     print(f"[INFO] 書き込み完了: {filepath}")
 
 if __name__ == "__main__":
-    input_csv_path = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
-    output_csv_path = "data/output/競合他社の銘柄コード取得/株テク_EV_EBITDA.csv"
+    if len(sys.argv) != 3:
+        print("使い方: python Select_EV_EBITDA.py <入力CSVパス> <出力CSVパス>")
+        sys.exit(1)
+
+    input_csv_path = sys.argv[1]
+    output_csv_path = sys.argv[2]
 
     stock_list = read_input_csv(input_csv_path)
-
     result = []
+
     for stock in stock_list:
         code = stock["銘柄コード"]
         name = stock["銘柄名"]
@@ -72,3 +71,9 @@ if __name__ == "__main__":
         })
 
     write_output_csv(result, output_csv_path)
+    try:
+        abs_path = os.path.abspath(output_csv_path)
+        print(f"[INFO] Excelを開きます: {abs_path}")
+        os.startfile(abs_path)
+    except Exception as e:
+        print(f"[WARN] Excel自動起動に失敗: {e}")
