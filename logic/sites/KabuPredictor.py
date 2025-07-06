@@ -11,7 +11,11 @@ from bs4 import BeautifulSoup
 
 
 def fetch_financials(csv_path, output_path, num_years=2):
+    # CSV読み込み + 分類が「無関係」の行は除外
     ticker_df = pd.read_csv(csv_path, dtype={"銘柄コード": str})
+    if "分類" in ticker_df.columns:
+        ticker_df = ticker_df[ticker_df["分類"] != "無関係"].copy()
+
     ticker_list = ticker_df["銘柄コード"].tolist()
     code_name_map = dict(zip(ticker_df["銘柄コード"], ticker_df["銘柄名"]))
 
