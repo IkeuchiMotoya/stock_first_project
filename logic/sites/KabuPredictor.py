@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
-
+#通期業績を取得する
 def fetch_financials(csv_path, output_path, num_years=2):
     # CSV読み込み + 分類が「無関係」の行は除外
     ticker_df = pd.read_csv(csv_path, dtype={"銘柄コード": str})

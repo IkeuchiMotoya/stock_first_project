@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
+#指標を取得する
 def fetch_indicators(input_csv, output_excel):
     # CSV読み込み（全角スペース除去）
     df = pd.read_csv(input_csv, dtype=str)

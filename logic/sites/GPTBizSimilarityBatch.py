@@ -5,6 +5,7 @@ import openai
 import io
 import os
 
+#チャットGPT_APIを使って類似競合他社を絞り込む
 # ==== 設定 ====
 CSV_PATH = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
 RAW_RESPONSE_PATH = "data/input/通期業績の推移、指標の取得/競合判定結果.csv"
