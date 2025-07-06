@@ -123,7 +123,7 @@ import subprocess
 
 # パスと引数
 input_csv = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
-output_csv = "data/output/競合他社の銘柄コード取得/株テク_EV_EBITDA.xlsx"
+output_csv = "data/output/競合他社との通期業績比較/株テク_EV_EBITDA.xlsx"
 script_path = "logic/RivalFinder/Select_EV_EBITDA.py"
 
 # コマンド構築
