@@ -1,8 +1,8 @@
 import os
-import csv
 import sys
 import requests
 from bs4 import BeautifulSoup
+from openpyxl import Workbook  # Excel書き出し用
 
 def get_ev_ebitda(stock_code):
     url = f"https://www.kabutec.jp/company/i.php?code={stock_code}"
@@ -31,6 +31,7 @@ def get_ev_ebitda(stock_code):
         return "エラー"
 
 def read_input_csv(filepath):
+    import csv
     stocks = []
     with open(filepath, mode='r', encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
@@ -41,21 +42,33 @@ def read_input_csv(filepath):
             })
     return stocks
 
-def write_output_csv(data, filepath):
+def write_output_excel(data, filepath):
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
-    with open(filepath, mode='w', newline='', encoding='utf-8-sig') as f:
-        writer = csv.DictWriter(f, fieldnames=["銘柄コード", "銘柄名", "EV/EBITDA"])
-        writer.writeheader()
-        writer.writerows(data)
-    print(f"[INFO] 書き込み完了: {filepath}")
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "EV_EBITDA比較"
+
+    # ヘッダー
+    ws.append(["銘柄コード", "銘柄名", "EV/EBITDA"])
+
+    # データ行
+    for row in data:
+        ws.append([row["銘柄コード"], row["銘柄名"], row["EV/EBITDA"]])
+
+    wb.save(filepath)
+    print(f"[INFO] Excel書き込み完了: {filepath}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("使い方: python Select_EV_EBITDA.py <入力CSVパス> <出力CSVパス>")
+        print("使い方: python Select_EV_EBITDA.py <入力CSVパス> <出力Excelパス>")
         sys.exit(1)
 
     input_csv_path = sys.argv[1]
-    output_csv_path = sys.argv[2]
+    output_excel_path = sys.argv[2]
+
+    # 拡張子強制 .xlsx
+    if not output_excel_path.endswith(".xlsx"):
+        output_excel_path = os.path.splitext(output_excel_path)[0] + ".xlsx"
 
     stock_list = read_input_csv(input_csv_path)
     result = []
@@ -70,9 +83,10 @@ if __name__ == "__main__":
             "EV/EBITDA": ev_ebitda
         })
 
-    write_output_csv(result, output_csv_path)
+    write_output_excel(result, output_excel_path)
+
     try:
-        abs_path = os.path.abspath(output_csv_path)
+        abs_path = os.path.abspath(output_excel_path)
         print(f"[INFO] Excelを開きます: {abs_path}")
         os.startfile(abs_path)
     except Exception as e:

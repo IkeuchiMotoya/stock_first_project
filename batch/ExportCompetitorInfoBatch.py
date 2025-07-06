@@ -14,7 +14,8 @@ output_dir = f"data/output/競合他社の銘柄コード取得"
 scripts = [
     ["python", "logic/RivalFinder/NikkeiKeizaiShinbunRivalFinder.py", scode],
     ["python", "logic/RivalFinder/ShikihouOnlineRivalFinder.py", scode],
-    ["python", "logic/RivalFinder/KabuyohoRivalFinder.py", scode]
+    ["python", "logic/RivalFinder/KabuyohoRivalFinder.py", scode],
+    ["python", "logic/RivalFinder/BuffettCodeRivalFinder.py", scode],
 ]
 
 # === ステップ①: 事前に出力ファイルを全削除 ===
@@ -31,8 +32,10 @@ def delete_all_files_in_folder(folder_path):
                 print(f"[INFO] 削除: {file_path}")
             except Exception as e:
                 print(f"[ERROR] 削除失敗: {file_path} -> {e}")
+
 #フォルダの中身クリーン
 delete_all_files_in_folder(output_dir)
+
 
 # ===実行
 for cmd in scripts:
