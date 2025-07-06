@@ -50,7 +50,7 @@ for cmd in scripts:
 # === 統合バッチの実行（競合データのマージ） ===
 input_dir = f"data/output/競合他社の銘柄コード取得"
 output_file = f"data\input\通期業績の推移、指標の取得\検索銘柄.csv"
-dedup_cols = ["銘柄コード", "銘柄名"]
+dedup_cols = ["銘柄コード"]
 
 merge_cmd = ["python", "utils/MergeFilesBatch.py", input_dir, output_file] + dedup_cols
 
