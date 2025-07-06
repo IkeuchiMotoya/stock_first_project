@@ -8,10 +8,21 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 
-def fetch_indicators(csv_path, output_path):
-    ticker_df = pd.read_csv(csv_path, dtype={"銘柄コード": str})
-    ticker_list = ticker_df["銘柄コード"].tolist()
-    name_map = dict(zip(ticker_df["銘柄コード"], ticker_df["銘柄名"]))
+def fetch_indicators(input_csv, output_excel):
+    # CSV読み込み（全角スペース除去）
+    df = pd.read_csv(input_csv, dtype=str)
+    df.columns = df.columns.str.strip()
+
+    # 無関係な行をスキップ
+    df = df[df["分類"] != "無関係"].copy()
+    if df.empty:
+        print("[WARN] 有効な行がありません（分類≠無関係）")
+        return
+
+    ticker_list = df["銘柄コード"].tolist()
+    name_map = dict(zip(df["銘柄コード"], df["銘柄名"]))
+    classify_map = dict(zip(df["銘柄コード"], df["分類"]))
+    reason_map = dict(zip(df["銘柄コード"], df["理由"]))
 
     items = {
         "PER（予）": r"PER（(連|個)）.*予",
@@ -25,7 +36,9 @@ def fetch_indicators(csv_path, output_path):
         "発行済み株式総数": r"発行済み株式総数"
     }
 
+    # Selenium起動
     options = webdriver.ChromeOptions()
+    # options.add_argument('--headless')
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
     all_results = []
@@ -48,9 +61,14 @@ def fetch_indicators(csv_path, output_path):
         soup = BeautifulSoup(driver.page_source, "html.parser")
         title = soup.title.text.strip() if soup.title else ""
 
-        results = {"銘柄コード": ticker, "銘柄名": name_map.get(ticker, title)}
-        dl_elements = soup.find_all("dl")
+        results = {
+            "銘柄コード": ticker,
+            "銘柄名": name_map.get(ticker, title),
+            "分類": classify_map.get(ticker, ""),
+            "理由": reason_map.get(ticker, "")
+        }
 
+        dl_elements = soup.find_all("dl")
         for dl in dl_elements:
             for dt, dd in zip(dl.find_all("dt"), dl.find_all("dd")):
                 key = dt.text.strip().replace(" ", "")
@@ -63,25 +81,25 @@ def fetch_indicators(csv_path, output_path):
 
     driver.quit()
 
-    df = pd.DataFrame(all_results)
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    df.to_excel(output_path, index=False)
+    if not all_results:
+        print("[WARN] 出力対象がありません")
+        return
 
-    if os.path.exists(output_path):
-        os.startfile(output_path)
+    df_out = pd.DataFrame(all_results)
+    os.makedirs(os.path.dirname(output_excel), exist_ok=True)
+    df_out.to_excel(output_excel, index=False)
+
+    print(f"[DONE] 出力完了: {output_excel}")
+    if os.path.exists(output_excel):
+        os.startfile(output_excel)
     else:
-        print(f"[WARN] ファイル出力に失敗: {output_path}")
+        print(f"[ERROR] 出力ファイルが見つかりません: {output_excel}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("使い方: python ExportStockIndicatorsWithArgs.py <銘柄CSVパス> <出力Excelパス>")
+        print("使い方: python Stock_Quotes.py <銘柄CSVパス> <出力Excelパス>")
         sys.exit(1)
 
     input_csv = os.path.abspath(sys.argv[1])
     output_excel = os.path.abspath(sys.argv[2])
     fetch_indicators(input_csv, output_excel)
-    
-    if os.path.exists(output_excel):
-        os.startfile(output_excel)
-    else:
-        print(f"[WARN] 出力ファイルが見つかりませんでした: {output_excel}")

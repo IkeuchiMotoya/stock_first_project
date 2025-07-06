@@ -105,7 +105,7 @@ except subprocess.CalledProcessError as e:
 
 # === 競合他社との指標比較を取得実行 ===
 # パスと引数
-input_csv = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
+input_csv = "data/input/通期業績の推移、指標の取得/競合判定結果.csv"
 output_excel = "data/output/競合他社との通期業績比較/指標比較.xlsx"
 script_path = "logic/sites/Stock_Quotes.py"
 

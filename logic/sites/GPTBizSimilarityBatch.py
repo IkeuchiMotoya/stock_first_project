@@ -7,7 +7,7 @@ import os
 
 # ==== 設定 ====
 CSV_PATH = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
-RAW_RESPONSE_PATH = "data/output/競合判定結果.csv"
+RAW_RESPONSE_PATH = "data/input/通期業績の推移、指標の取得/競合判定結果.csv"
 MODEL = "gpt-4o"
 SECRETS_PATH = "secrets.json"
 
@@ -51,8 +51,9 @@ content = f"""あなたは業界分析の専門家です。
 
 【出力形式（必ず守ってください）】
 CSV形式で出力してください。先頭行は次のカラム構成です：
+ヘッダを除く一行目には【基準銘柄】を出力してください
 
-銘柄コード, 銘柄名, 分類, 理由
+銘柄コード,銘柄名,分類,理由
 
 
 【基準銘柄】：{base_name}（{base_code}）
