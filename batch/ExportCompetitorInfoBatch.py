@@ -5,8 +5,8 @@ import os
 #競合他社取得の参照サイト
 #[日経経済新聞][四季報オンライン][株予報Pro]
 # 対象の銘柄コード（ここを変えればどの銘柄でも一括取得可能）
-scode = "3921"
-name = "ネオジャパン"
+scode = "2975"
+name = "スター・マイカ・ホールディングス"
 #最初にフォルダのファイルクリーンするためのパス
 output_dir = f"data/output/競合他社の銘柄コード取得"
 
@@ -123,7 +123,7 @@ import subprocess
 
 # パスと引数
 input_csv = "data/input/通期業績の推移、指標の取得/検索銘柄.csv"
-output_csv = "data/output/競合他社の銘柄コード取得/株テク_EV_EBITDA.csv"
+output_csv = "data/output/競合他社の銘柄コード取得/株テク_EV_EBITDA.xlsx"
 script_path = "logic/RivalFinder/Select_EV_EBITDA.py"
 
 # コマンド構築
