@@ -5,8 +5,8 @@ import os
 #競合他社取得の参照サイト
 #[日経経済新聞][四季報オンライン][株予報Pro]
 # 対象の銘柄コード（ここを変えればどの銘柄でも一括取得可能）
-scode = "215A"
-name = "タイミー"
+scode = "1893"
+name = "五洋建設"
 #最初にフォルダのファイルクリーンするためのパス
 output_dir = f"data/output/競合他社の銘柄コード取得"
 
@@ -105,7 +105,10 @@ except subprocess.CalledProcessError as e:
 # パスと引数
 input_csv = "data/input/通期業績の推移、指標の取得/競合判定結果.csv"
 output_excel = "data/output/競合他社との通期業績比較/通期業績推移.xlsx"
-script_path = "logic/sites/KabuPredictor.py"
+#IRbankから取得するバッチ
+# script_path = "logic/sites/KabuPredictor.py"
+#ヤフーフィナンシャルから取得するバッチ
+script_path = "logic/sites/financeYahooKabuPredictor.py"
 
 # コマンド構築
 cmd = ["python", script_path, input_csv, output_excel]
@@ -114,9 +117,9 @@ cmd = ["python", script_path, input_csv, output_excel]
 print(f"[RUNNING] {' '.join(cmd)}")
 try:
     subprocess.run(cmd, check=True)
-    print("[DONE] KabuPredictor 正常終了")
+    print("[DONE] financeYahooKabuPredictor 正常終了")
 except subprocess.CalledProcessError as e:
-    print(f"[ERROR] KabuPredictor 実行失敗: {e}")
+    print(f"[ERROR] financeYahooKabuPredictor 実行失敗: {e}")
 
 
 # === 競合他社との指標比較を取得実行 ===
