@@ -44,7 +44,10 @@ def fetch_yahoo_financials(ticker: str, name: str):
 
         df = pd.DataFrame(data, columns=["決算期"] + headers)
         df["財務数値更新日_dt"] = pd.to_datetime(df["財務数値更新日"], errors="coerce")
-        df = df.sort_values("財務数値更新日_dt").drop(columns="財務数値更新日_dt").reset_index(drop=True)
+        # 決算期の年でソート
+        df["決算期_年"] = df["決算期"].str.extract(r"(\d{4})").astype(int)
+        df = df.sort_values("決算期_年").drop(columns="決算期_年").reset_index(drop=True)
+        # df = df.sort_values("財務数値更新日_dt").drop(columns="財務数値更新日_dt").reset_index(drop=True)
         df = df.tail(3).reset_index(drop=True)
 
         df.insert(0, "銘柄コード", ticker)
@@ -55,10 +58,13 @@ def fetch_yahoo_financials(ticker: str, name: str):
 
         df["純利益率"] = (df["純利益（百万円）"] / df["売上高（百万円）"] * 100).round(2).astype(str) + "%"
         df["売上高比率"] = df["売上高（百万円）"].pct_change().mul(100).round(2).astype(str).replace("nan%", "") + "%"
+        # 営業利益前年比（営業利益比率）
+        df["営業利益比率"] = df["営業利益（百万円）"].pct_change().mul(100).round(2).astype(str).replace("nan%", "") + "%"
+
 
         df_output = df[[
             "銘柄コード", "銘柄名", "決算期", "売上高（百万円）", "売上高比率",
-            "売上総利益（百万円）", "粗利率", "営業利益（百万円）", "営業利益率",
+            "売上総利益（百万円）", "粗利率", "営業利益（百万円）", "営業利益比率",
             "経常利益（百万円）", "経常利益率", "純利益（百万円）", "純利益率"
         ]]
         return df_output
