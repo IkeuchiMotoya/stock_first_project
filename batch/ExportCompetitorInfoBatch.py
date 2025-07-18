@@ -5,8 +5,9 @@ import os
 #競合他社取得の参照サイト
 #[日経経済新聞][四季報オンライン][株予報Pro]
 # 対象の銘柄コード（ここを変えればどの銘柄でも一括取得可能）
-scode = "6224"
-name = "ＪＲＣ"
+scode = "245A"
+name = "ＩＮＧＳ"
+jigyonaiyo = "「らぁ麺 はやし田」、「CONA」、「焼売のジョー」を中心に飲食事業を展開。"
 #最初にフォルダのファイルクリーンするためのパス
 output_dir = f"data/output/競合他社の銘柄コード取得"
 
@@ -89,7 +90,7 @@ except subprocess.CalledProcessError as e:
 script_path = "logic/sites/GPTBizSimilarityBatch.py"
 
 # コマンド構築
-cmd = ["python", script_path, scode, name]
+cmd = ["python", script_path, scode, name, jigyonaiyo]
 
 # 実行
 print(f"[RUNNING] {' '.join(cmd)}")
