@@ -8,6 +8,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from openpyxl import load_workbook
 
+
+#ヤフーファイナンスから財務、キャッシュフローを取得する
 def get_issued_shares_and_close_yahoo(ticker):
     url = f"https://finance.yahoo.co.jp/quote/{ticker}"
     options = webdriver.ChromeOptions()
