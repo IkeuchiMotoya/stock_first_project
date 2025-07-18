@@ -5,7 +5,8 @@ batch_list = [
     "logic/CompanyAnalysisExcelList/ExcelCreation.py",
     "logic/CompanyAnalysisExcelList/IndexComparisonInsert.py",
     "logic/CompanyAnalysisExcelList/EV_EBITDAInsert.py",
-    "logic/CompanyAnalysisExcelList/FullYearPerformanceTrendsInsert.py"
+    "logic/CompanyAnalysisExcelList/FullYearPerformanceTrendsInsert.py",
+    "logic/DCF/EmbedInDCFExcel.py"
 ]
 
 for script in batch_list:

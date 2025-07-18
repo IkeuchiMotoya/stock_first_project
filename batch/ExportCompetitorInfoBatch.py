@@ -160,6 +160,21 @@ except subprocess.CalledProcessError as e:
     print(f"[ERROR] Select_EV_EBITDA 実行失敗: {e}")
 
 
+
+# Yahoo!ファイナンスから財務とキャッシュフロー取得
+target_py = "logic/DCF/FinancialCashFlowSelect.py"
+
+# Pythonファイルを実行
+result = subprocess.run(["python", target_py])
+
+if result.returncode == 0:
+    print("FinancialCashFlowSelect.py の実行が正常に完了しました。")
+else:
+    print(f"FinancialCashFlowSelect.py 実行でエラーが発生しました（コード: {result.returncode}）")
+
+
+
+
 # 企業分析エクセルにスクレイピングした内容を埋め込む
 target_py = "batch/CompanyAnalysisExcelCreation.py"
 
@@ -167,6 +182,6 @@ target_py = "batch/CompanyAnalysisExcelCreation.py"
 result = subprocess.run(["python", target_py])
 
 if result.returncode == 0:
-    print("run_all_batches.py の実行が正常に完了しました。")
+    print("CompanyAnalysisExcelCreation.py の実行が正常に完了しました。")
 else:
-    print(f"run_all_batches.py 実行でエラーが発生しました（コード: {result.returncode}）")
+    print(f"CompanyAnalysisExcelCreation.py 実行でエラーが発生しました（コード: {result.returncode}）")
