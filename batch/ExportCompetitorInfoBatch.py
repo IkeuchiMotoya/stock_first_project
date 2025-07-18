@@ -5,8 +5,8 @@ import os
 #競合他社取得の参照サイト
 #[日経経済新聞][四季報オンライン][株予報Pro]
 # 対象の銘柄コード（ここを変えればどの銘柄でも一括取得可能）
-scode = "1893"
-name = "五洋建設"
+scode = "6224"
+name = "ＪＲＣ"
 #最初にフォルダのファイルクリーンするためのパス
 output_dir = f"data/output/競合他社の銘柄コード取得"
 
@@ -158,3 +158,15 @@ try:
     print("[DONE] Select_EV_EBITDA 正常終了")
 except subprocess.CalledProcessError as e:
     print(f"[ERROR] Select_EV_EBITDA 実行失敗: {e}")
+
+
+# 企業分析エクセルにスクレイピングした内容を埋め込む
+target_py = "batch/CompanyAnalysisExcelCreation.py"
+
+# Pythonファイルを実行
+result = subprocess.run(["python", target_py])
+
+if result.returncode == 0:
+    print("run_all_batches.py の実行が正常に完了しました。")
+else:
+    print(f"run_all_batches.py 実行でエラーが発生しました（コード: {result.returncode}）")

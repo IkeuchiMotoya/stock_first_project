@@ -101,7 +101,7 @@ if __name__ == "__main__":
         os.makedirs(os.path.dirname(output_excel), exist_ok=True)
         final_df.to_excel(output_excel, index=False)
         print(f"[DONE] 出力完了: {output_excel}")
-        if os.path.exists(output_excel):
-            os.startfile(output_excel)
+        # if os.path.exists(output_excel):
+        #     os.startfile(output_excel)
     else:
         print("❌ すべての銘柄でデータ取得に失敗しました")

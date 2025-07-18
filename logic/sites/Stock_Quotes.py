@@ -91,10 +91,10 @@ def fetch_indicators(input_csv, output_excel):
     df_out.to_excel(output_excel, index=False)
 
     print(f"[DONE] 出力完了: {output_excel}")
-    if os.path.exists(output_excel):
-        os.startfile(output_excel)
-    else:
-        print(f"[ERROR] 出力ファイルが見つかりません: {output_excel}")
+    # if os.path.exists(output_excel):
+    #     os.startfile(output_excel)
+    # else:
+    #     print(f"[ERROR] 出力ファイルが見つかりません: {output_excel}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:

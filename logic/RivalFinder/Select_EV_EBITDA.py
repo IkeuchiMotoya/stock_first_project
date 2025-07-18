@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
     try:
         abs_path = os.path.abspath(output_excel_path)
-        print(f"[INFO] Excelを開きます: {abs_path}")
-        os.startfile(abs_path)
+        # print(f"[INFO] Excelを開きます: {abs_path}")
+        # os.startfile(abs_path)
     except Exception as e:
         print(f"[WARN] Excel自動起動に失敗: {e}")
