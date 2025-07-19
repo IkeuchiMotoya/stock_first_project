@@ -57,9 +57,17 @@ def fetch_yahoo_financials(ticker: str, name: str):
             df[col] = pd.to_numeric(df[col], errors="coerce")
 
         df["純利益率"] = (df["純利益（百万円）"] / df["売上高（百万円）"] * 100).round(2).astype(str) + "%"
-        df["売上高比率"] = df["売上高（百万円）"].pct_change().mul(100).round(2).astype(str).replace("nan%", "") + "%"
-        # 営業利益前年比（営業利益比率）
-        df["営業利益比率"] = df["営業利益（百万円）"].pct_change().mul(100).round(2).astype(str).replace("nan%", "") + "%"
+        # 売上高比率（前年比、絶対値で割る）
+        df["売上高比率"] = (
+            (df["売上高（百万円）"] - df["売上高（百万円）"].shift(1)) 
+            / df["売上高（百万円）"].shift(1).abs()
+        ).mul(100).round(2).astype(str).replace("nan", "") + "%"
+
+        # 営業利益比率（前年比、絶対値で割る）
+        df["営業利益比率"] = (
+            (df["営業利益（百万円）"] - df["営業利益（百万円）"].shift(1)) 
+            / df["営業利益（百万円）"].shift(1).abs()
+        ).mul(100).round(2).astype(str).replace("nan", "") + "%"
 
 
         df_output = df[[
