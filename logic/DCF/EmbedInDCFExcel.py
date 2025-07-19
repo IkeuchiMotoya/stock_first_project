@@ -39,14 +39,14 @@ else:
     sht = wb.sheets.add("DCF")
     print("→ 'DCF'シート新規作成。")
 
-# ① 発行済株式数（B40～）
-sht.range("B40").options(index=False, header=True).value = df_hakkou
+# ① 発行済株式数（B48～）
+sht.range("B48").options(index=False, header=True).value = df_hakkou
 
-# ② 財務（B44～）
-sht.range("B44").options(index=False, header=True).value = df_zaimu
+# ② 財務（B52～）
+sht.range("B52").options(index=False, header=True).value = df_zaimu
 
-# ③ キャッシュフロー（B50～）
-sht.range("B50").options(index=False, header=True).value = df_cf
+# ③ キャッシュフロー（B58～）
+sht.range("B58").options(index=False, header=True).value = df_cf
 
 wb.save()
 wb.close()
